@@ -116,7 +116,17 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n\n\nconsole.log(\"working!\");\nconsole.log(\"Hello, Webpack with Babel!\");\n\n\n//# sourceURL=webpack://webpack-demo/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _modules_hash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/hash */ \"./src/modules/hash.js\");\n\n\n\nconst myTable = new _modules_hash__WEBPACK_IMPORTED_MODULE_1__[\"default\"]();\nmyTable.set(\"firstName\", \"João\");\nmyTable.set(\"firstName\", \"Carla\");\nconsole.log(myTable);\n\n\n//# sourceURL=webpack://webpack-demo/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/modules/hash.js":
+/*!*****************************!*\
+  !*** ./src/modules/hash.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ HashMap)\n/* harmony export */ });\nclass HashMap {\n  constructor(initialCapacity = 8, loadFactor = 0.75) {\n    this.buckets = new Array(initialCapacity).fill(null).map(() => []);\n    this.size = 0;\n    this.loadFactor = loadFactor;\n  }\n\n  hash(key) {\n    let hashCode = 0;\n    const primeNumber = 31;\n    for (let i = 0; i < key.length; i++) {\n      hashCode = primeNumber * hashCode + key.charCodeAt(i);\n    }\n    return hashCode % this.buckets.length;\n  }\n\n  set(key, value) {\n    const index = this.hash(key);\n    const bucket = this.buckets[index];\n\n    for (let i = 0; i < bucket.length; i++) {\n      const [existingKey, existingValue] = bucket[i];\n      if (existingKey === key) {\n        bucket[i] = [key, value]; // Overwrite existing value\n        return;\n      }\n    }\n\n    bucket.push([key, value]);\n    this.size++;\n\n    /*\n    Need to pay attention to this later \n      if (this.size / this.buckets.length > this.loadFactor) {\n      this.resize();\n    }\n      */\n  }\n  get(key) {}\n  has(key) {}\n  remove(key) {}\n  length() {}\n  clear() {}\n  keys() {}\n  values() {}\n  entries() {}\n}\n\n\n//# sourceURL=webpack://webpack-demo/./src/modules/hash.js?");
 
 /***/ })
 
