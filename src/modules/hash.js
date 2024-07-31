@@ -21,13 +21,17 @@ export default class HashMap {
     for (let i = 0; i < bucket.length; i++) {
       const [existingKey, existingValue] = bucket[i];
       if (existingKey === key) {
-        bucket[i] = [key, value];
+        bucket[i] = [key, value]; // Overwrite existing value
         return;
       }
     }
 
     bucket.push([key, value]);
     this.size++;
+
+    if (this.size / this.buckets.length > this.loadFactor) {
+      this.resize();
+    }
   }
   get(key) {
     const index = this.hash(key);
@@ -101,5 +105,19 @@ export default class HashMap {
       }
     }
     return entriesArray;
+  }
+  resize() {
+    const newBuckets = new Array(this.buckets.length * 2)
+      .fill(null)
+      .map(() => []);
+    const oldBuckets = this.buckets;
+    this.buckets = newBuckets;
+    this.size = 0;
+
+    for (const bucket of oldBuckets) {
+      for (const [key, value] of bucket) {
+        this.set(key, value);
+      }
+    }
   }
 }
