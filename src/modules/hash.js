@@ -21,27 +21,85 @@ export default class HashMap {
     for (let i = 0; i < bucket.length; i++) {
       const [existingKey, existingValue] = bucket[i];
       if (existingKey === key) {
-        bucket[i] = [key, value]; // Overwrite existing value
+        bucket[i] = [key, value];
         return;
       }
     }
 
     bucket.push([key, value]);
     this.size++;
-
-    /*
-    Need to pay attention to this later 
-      if (this.size / this.buckets.length > this.loadFactor) {
-      this.resize();
-    }
-      */
   }
-  get(key) {}
-  has(key) {}
-  remove(key) {}
-  length() {}
-  clear() {}
-  keys() {}
-  values() {}
-  entries() {}
+  get(key) {
+    const index = this.hash(key);
+    const bucket = this.buckets[index];
+
+    for (const [existingKey, value] of bucket) {
+      if (existingKey === key) {
+        return value;
+      }
+    }
+    return null;
+  }
+
+  has(key) {
+    const index = this.hash(key);
+    const bucket = this.buckets[index];
+
+    for (let i = 0; i < bucket.length; i++) {
+      const existingKey = bucket[i];
+      if (existingKey === key) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  remove(key) {
+    const index = this.hash(key);
+    const bucket = this.buckets[index];
+
+    for (let i = 0; i < bucket.length; i++) {
+      const [existingKey, value] = bucket[i];
+      if (existingKey === key) {
+        bucket.splice(i, 1);
+        this.size--;
+        return value;
+      }
+    }
+    return false;
+  }
+  length() {
+    return this.size;
+  }
+  clear() {
+    this.buckets = new Array(this.buckets.length).fill(null).map(() => []);
+    this.size = 0;
+  }
+  keys() {
+    const keysArray = [];
+    for (const bucket of this.buckets) {
+      for (const [key, value] of bucket) {
+        keysArray.push(key);
+      }
+    }
+    return keysArray;
+  }
+  values() {
+    const valuesArray = [];
+    for (const bucket of this.buckets) {
+      for (const [key, value] of bucket) {
+        valuesArray.push(value);
+      }
+    }
+    return valuesArray;
+  }
+  entries() {
+    const entriesArray = [];
+    for (const bucket of this.buckets) {
+      for (const [key, value] of bucket) {
+        entriesArray.push([key, value]);
+      }
+    }
+    return entriesArray;
+  }
 }
