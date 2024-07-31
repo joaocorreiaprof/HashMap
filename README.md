@@ -2,7 +2,7 @@
 
 This project implements a simple HashMap data structure in JavaScript. A HashMap is a collection of key-value pairs where each key is unique. The HashMap uses a hashing function to compute an index into an array of buckets or slots, from which the desired value can be found.
 
-##Features
+## Features
 
 - Insertion: Add key-value pairs to the HashMap. If the key already exists, the value is updated.
 - Retrieval: Retrieve the value associated with a given key
